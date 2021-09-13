@@ -26,8 +26,9 @@ public class Event {
   private LocalDateTime closeEnrollmentDateTime;
   private LocalDateTime beginEventDateTime;
   private LocalDateTime endEventDateTime;
-  private String basePrice;
-  private String maxPrice;
+  private int basePrice;
+  private int maxPrice;
+  private String location;
   private int limitOfEnrollment;
 
 }
