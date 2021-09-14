@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -37,6 +38,7 @@ public class EventControllerTest {
   public void createEvent() throws Exception {
     // given
     Event event = Event.builder()
+        .id(100)
         .name("test-name")
         .description("test-desc")
         .beginEnrollmentDateTime(LocalDateTime.of(2021, 9, 13, 16,30))
@@ -47,8 +49,8 @@ public class EventControllerTest {
         .maxPrice(200)
         .limitOfEnrollment(100)
         .location("jung-ja station")
+        .free(true)
         .build();
-    event.setId(10);
 
     // when
     Mockito.when(eventRepository.save(event)).thenReturn(event);
@@ -61,6 +63,8 @@ public class EventControllerTest {
         .andDo(print())
         .andExpect(status().isCreated())
         .andExpect(jsonPath("id").exists())
+        .andExpect(jsonPath("id").value(Matchers.not(100)))
+        .andExpect(jsonPath("free").value(Matchers.not(true)))
         .andExpect(header().exists(HttpHeaders.LOCATION))
         .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE));
   }
