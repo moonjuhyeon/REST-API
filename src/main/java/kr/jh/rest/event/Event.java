@@ -1,6 +1,10 @@
 package kr.jh.rest.event;
 
 import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -14,12 +18,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
+@Entity
 public class Event {
 
+  @Id
   private Integer id;
   private boolean offline;
   private boolean free;
-  private EventStatus eventStatus = EventStatus.DRAFT;
+  @Enumerated(EnumType.STRING)
+  private EventStatus eventStatus;
   private String name;
   private String description;
   private LocalDateTime beginEnrollmentDateTime;
