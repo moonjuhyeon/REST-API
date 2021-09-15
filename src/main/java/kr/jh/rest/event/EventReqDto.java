@@ -3,6 +3,7 @@ package kr.jh.rest.event;
 import java.time.LocalDateTime;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,14 +20,15 @@ public class EventReqDto {
   private String name;
   @NotEmpty
   private String description;
-  @NotEmpty
+  @NotNull
   private LocalDateTime beginEnrollmentDateTime;
-  @NotEmpty
+  @NotNull
   private LocalDateTime closeEnrollmentDateTime;
-  @NotEmpty
+  @NotNull
   private LocalDateTime beginEventDateTime;
-  @NotEmpty
+  @NotNull
   private LocalDateTime endEventDateTime;
+
   private String location;
   @Min(0)
   private int basePrice;
