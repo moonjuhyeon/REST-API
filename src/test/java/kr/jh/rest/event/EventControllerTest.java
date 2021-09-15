@@ -109,6 +109,31 @@ public class EventControllerTest {
           .accept(MediaTypes.HAL_JSON)
           .content(objectMapper.writeValueAsString(eventReqDto)))
         .andExpect(status().isBadRequest());
+  }
 
+  @Test
+  @DisplayName("createEvent 400 status, 올바르지 않은 input 테스트")
+  public void createEvent_Bad_Request_Wrong_Input() throws Exception {
+    // given
+    EventReqDto eventReqDto = EventReqDto.builder()
+        .name("test-name")
+        .description("test-desc")
+        .beginEnrollmentDateTime(LocalDateTime.of(2021, 9, 13, 18,30))
+        .closeEnrollmentDateTime(LocalDateTime.of(2021, 9, 13, 16,50))
+        .beginEventDateTime(LocalDateTime.of(2021, 9, 15, 16,30))
+        .endEventDateTime(LocalDateTime.of(2021, 9, 13, 16,50))
+        .basePrice(10000)
+        .maxPrice(200)
+        .location("jung-ja station")
+        .limitOfEnrollment(100)
+        .build();
+    // when
+
+    // then
+    mockMvc.perform(post("/api/events")
+          .contentType(MediaType.APPLICATION_JSON_VALUE)
+          .accept(MediaTypes.HAL_JSON)
+          .content(objectMapper.writeValueAsString(eventReqDto)))
+        .andExpect(status().isBadRequest());
   }
 }
