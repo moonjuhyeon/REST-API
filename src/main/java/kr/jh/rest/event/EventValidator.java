@@ -1,7 +1,6 @@
 package kr.jh.rest.event;
 
 import java.time.LocalDateTime;
-import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
@@ -10,8 +9,7 @@ public class EventValidator {
 
   public void validate(EventReqDto eventReqDto, Errors errors){
     if(eventReqDto.getBasePrice() > eventReqDto.getMaxPrice() && eventReqDto.getMaxPrice() != 0){
-      errors.rejectValue("basePrice", "wrongValue", "BasePrice is Wrong.");
-      errors.rejectValue("maxPrice", "wrongValue", "MaxPrice is Wrong.");
+      errors.reject("wrongPrices", "Prices are Wrong.");
     }
 
     LocalDateTime endEventTime = eventReqDto.getEndEventDateTime();
