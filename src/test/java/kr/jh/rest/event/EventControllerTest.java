@@ -92,7 +92,23 @@ public class EventControllerTest {
         .contentType(MediaType.APPLICATION_JSON_VALUE)
         .accept(MediaTypes.HAL_JSON)
         .content(objectMapper.writeValueAsString(event)))
-        .andDo(print())
         .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  @DisplayName("createEvent 400 status, 빈 값 input 테스트")
+  public void createEvent_Bad_Request_Empty_Input() throws Exception {
+    // given
+    EventReqDto eventReqDto = EventReqDto.builder().build();
+
+    // when
+
+    // then
+    mockMvc.perform(post("/api/events")
+          .contentType(MediaType.APPLICATION_JSON_VALUE)
+          .accept(MediaTypes.HAL_JSON)
+          .content(objectMapper.writeValueAsString(eventReqDto)))
+        .andExpect(status().isBadRequest());
+
   }
 }
