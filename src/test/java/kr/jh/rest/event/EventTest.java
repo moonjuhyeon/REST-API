@@ -2,10 +2,14 @@ package kr.jh.rest.event;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("Entity 테스트")
 class EventTest {
+
   @Test
+  @DisplayName("Entity Builder 테스트")
   void builder(){
     Event event = Event.builder()
         .name("tdd-Class")
@@ -15,6 +19,7 @@ class EventTest {
   }
 
   @Test
+  @DisplayName("Entity Java Bean 테스트")
   void javaBean(){
     Event event = new Event();
     String name = "name";
