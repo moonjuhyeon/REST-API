@@ -30,4 +30,64 @@ class EventTest {
     assertThat(event.getName()).isEqualTo(name);
     assertThat(event.getDescription()).isEqualTo(description);
   }
+
+  @Test
+  void testFree(){
+    // given
+    Event event = Event.builder()
+        .basePrice(0)
+        .maxPrice(0)
+        .build();
+
+    // when
+    event.update();
+
+    // then
+    assertThat(event.isFree()).isTrue();
+
+    // given
+    event = Event.builder()
+        .basePrice(100)
+        .maxPrice(0)
+        .build();
+
+    // when
+    event.update();
+
+    // then
+    assertThat(event.isFree()).isFalse();
+
+    // given
+    event = Event.builder()
+        .basePrice(0)
+        .maxPrice(100)
+        .build();
+
+    // when
+    event.update();
+
+    // then
+    assertThat(event.isFree()).isFalse();
+  }
+
+  @Test
+  void testOffline(){
+    // given
+    Event event = Event.builder()
+        .location("")
+        .build();
+    // when
+    event.update();
+    // then
+    assertThat(event.isOffline()).isFalse();
+
+    // given
+    event = Event.builder()
+        .location("korea")
+        .build();
+    // when
+    event.update();
+    // then
+    assertThat(event.isOffline()).isTrue();
+  }
 }
