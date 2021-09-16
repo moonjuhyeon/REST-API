@@ -4,6 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.runners.Parameterized.Parameters;
 
 @DisplayName("Entity 테스트")
 class EventTest {
@@ -31,63 +34,41 @@ class EventTest {
     assertThat(event.getDescription()).isEqualTo(description);
   }
 
-  @Test
-  void testFree(){
+  @ParameterizedTest
+  @CsvSource({
+      "0, 0, true",
+      "100, 0, false",
+      "0, 100, false",
+      "100, 100, false"
+  })
+  void testFree(int basePrice, int maxPrice, boolean free){
     // given
     Event event = Event.builder()
-        .basePrice(0)
-        .maxPrice(0)
+        .basePrice(basePrice)
+        .maxPrice(maxPrice)
         .build();
 
     // when
     event.update();
 
     // then
-    assertThat(event.isFree()).isTrue();
-
-    // given
-    event = Event.builder()
-        .basePrice(100)
-        .maxPrice(0)
-        .build();
-
-    // when
-    event.update();
-
-    // then
-    assertThat(event.isFree()).isFalse();
-
-    // given
-    event = Event.builder()
-        .basePrice(0)
-        .maxPrice(100)
-        .build();
-
-    // when
-    event.update();
-
-    // then
-    assertThat(event.isFree()).isFalse();
+    assertThat(event.isFree()).isEqualTo(free);
   }
 
-  @Test
-  void testOffline(){
+  @ParameterizedTest
+  @CsvSource(value={
+      "korea, true",
+      " , false",
+      "null,false",
+  }, nullValues={"null"})
+  void testOffline(String location, boolean offline){
     // given
     Event event = Event.builder()
-        .location("")
+        .location(location)
         .build();
     // when
     event.update();
     // then
-    assertThat(event.isOffline()).isFalse();
-
-    // given
-    event = Event.builder()
-        .location("korea")
-        .build();
-    // when
-    event.update();
-    // then
-    assertThat(event.isOffline()).isTrue();
+    assertThat(event.isOffline()).isEqualTo(offline);
   }
 }
