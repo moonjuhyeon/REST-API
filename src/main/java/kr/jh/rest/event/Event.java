@@ -40,4 +40,8 @@ public class Event {
   private String location;
   private int limitOfEnrollment;
 
+  public void update() {
+    this.free = this.basePrice == 0 && this.maxPrice == 0;
+    this.offline = !this.location.isEmpty();
+  }
 }
