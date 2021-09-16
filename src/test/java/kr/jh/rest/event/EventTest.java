@@ -41,6 +41,7 @@ class EventTest {
       "0, 100, false",
       "100, 100, false"
   })
+  @DisplayName("Entity free field 변경 테스트")
   void testFree(int basePrice, int maxPrice, boolean free){
     // given
     Event event = Event.builder()
@@ -61,6 +62,7 @@ class EventTest {
       " , false",
       "null,false",
   }, nullValues={"null"})
+  @DisplayName("Entity free offline 변경 테스트")
   void testOffline(String location, boolean offline){
     // given
     Event event = Event.builder()
