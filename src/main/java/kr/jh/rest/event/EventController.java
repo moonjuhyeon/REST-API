@@ -7,7 +7,9 @@ import java.net.URI;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.server.LinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,7 +44,12 @@ public class EventController {
     Event event = modelMapper.map(eventReqDto, Event.class);
     event.update();
     Event newEvent = eventRepository.save(event);
-    URI createdUri = linkTo(EventController.class).slash(newEvent.getId()).toUri();
-    return ResponseEntity.created(createdUri).body(newEvent);
+    LinkBuilder linkBuilder = linkTo(EventController.class).slash(newEvent.getId());
+    URI createdUri = linkBuilder.toUri();
+    EntityModel<Event> eventEntityModel = new EntityModel<>(newEvent);
+    eventEntityModel.add(linkTo(EventController.class).withRel("query-events"));
+    eventEntityModel.add(linkBuilder.withSelfRel());
+    eventEntityModel.add(linkBuilder.withRel("update-event"));
+    return ResponseEntity.created(createdUri).body(eventEntityModel);
   }
 }
